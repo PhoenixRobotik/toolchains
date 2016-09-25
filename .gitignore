@@ -1,0 +1,8 @@
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+
+libopencm3/*.a
+libopencm3/*.ld
+
