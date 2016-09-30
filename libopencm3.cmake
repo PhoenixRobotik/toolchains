@@ -9,26 +9,66 @@ set(CMAKE_CXX_COMPILER_WORKS 1)
 
 set(stm32_common_CFlags "\
     -ffunction-sections -fdata-sections -fno-common --static -Wl,--gc-sections \
-    -specs=nosys.specs -lm -lc -lgcc -lnosys -nostartfiles \
+    -nostartfiles \
 ")
+include_directories (${TOOLCHAIN_PATH}/libopencm3/include)
+list(APPEND toolchain_libs m c gcc nosys)
 
-set(stm32f0_CFlags "-mcpu=cortex-m0 -mthumb \
-    -DSTM32F0 -L${TOOLCHAIN_PATH} -lopencm3_stm32f0 -Tlibopencm3_stm32f0.ld")
+if(${BOARD} STREQUAL "stm32f0")
+    set(BOARD_CFlags
+        "-mcpu=cortex-m0 -mthumb \
+        -DSTM32F0 -Tlibopencm3_stm32f0.ld")
+    list(APPEND toolchain_libs opencm3_stm32f0)
 
-set(stm32f3_CFlags "-mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 \
-    -DSTM32F3 -L${TOOLCHAIN_PATH} -lopencm3_stm32f3 -Tlibopencm3_stm32f3.ld")
+elseif(${BOARD} STREQUAL "stm32f3")
 
-set(stm32f4_CFlags "-mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 \
-    -DSTM32F4 -L${TOOLCHAIN_PATH} -lopencm3_stm32f4 -Tstm32f4-discovery.ld")
+    set(BOARD_CFlags
+        "-mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 \
+        -DSTM32F3 -Tlibopencm3_stm32f3.ld")
+    list(APPEND toolchain_libs opencm3_stm32f3)
 
-set(stm32l4_CFlags "-mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 \
-    -DSTM32L4 -L${TOOLCHAIN_PATH} -lopencm3_stm32l4 -Tlibopencm3_stm32l4.ld")
+elseif(${BOARD} STREQUAL "stm32f407-discovery")
+    set(BOARD_CFlags
+        "-mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 \
+        -DSTM32F4 -Tstm32f4-discovery.ld")
+    list(APPEND toolchain_libs opencm3_stm32f4)
 
-set(CMAKE_C_FLAGS "${stm32f4_CFlags} ${stm32_common_CFlags} -DDEBUG=${DEBUG}"
+elseif(${BOARD} STREQUAL "stm32f429i-discovery")
+    set(BOARD_CFlags
+        "-mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 \
+        -DSTM32F4 -Tstm32f429i-discovery.ld")
+    list(APPEND toolchain_libs opencm3_stm32f4)
+
+elseif(${BOARD} STREQUAL "stm32l4")
+    set(BOARD_CFlags
+        "-mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 \
+        -DSTM32L4 -Tlibopencm3_stm32l4.ld")
+    list(APPEND toolchain_libs opencm3_stm32l4)
+
+endif()
+
+set(CMAKE_C_FLAGS "-DDEBUG=${DEBUG} -L${TOOLCHAIN_PATH} ${BOARD_CFlags} ${stm32_common_CFlags}"
 CACHE STRING "" FORCE)
 
 set(CMAKE_CXX_FLAGS ${CMAKE_C_FLAGS})
 
+if (NOT TARGET flash)
+
+set(OpenOCD_CFG "/usr/share/openocd/scripts/board/stm32429i_eval_stlink.cfg")
+
+add_custom_target(flash
+    DEPENDS main_binary
+    COMMAND arm-none-eabi-objcopy -Oihex $<TARGET_FILE:main_binary> $<TARGET_FILE:main_binary>.hex
+    COMMAND echo "Flashing the STM32 Board !"
+    COMMAND sudo openocd -f ${OpenOCD_CFG}
+            -c \"init\"
+            -c \"reset init\"
+            -c \"flash write_image erase $<TARGET_FILE:main_binary>.hex\"
+            -c \"reset\"
+            -c \"shutdown\"
+)
+
+endif()
 
 if (NOT TARGET lib-stm32f4)
 
