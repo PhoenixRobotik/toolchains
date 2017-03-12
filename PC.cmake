@@ -8,3 +8,5 @@ set(CMAKE_CXX_FLAGS ${CMAKE_C_FLAGS})
 add_definitions("-Os -W -Wall")
 # Clean unused sections on link
 add_definitions("-ffunction-sections -fdata-sections -Wl,--gc-sections")
+
+set(TOOLCHAIN "PC")

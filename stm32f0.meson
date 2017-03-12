@@ -1,0 +1,40 @@
+[binaries]
+c     = 'arm-none-eabi-gcc'
+cpp   = 'arm-none-eabi-g++'
+ar    = 'arm-none-eabi-ar'
+strip = 'arm-none-eabi-strip'
+
+[host_machine]
+system = 'bare'
+cpu_family = 'stm32'
+cpu = 'stm32f0'
+endian = 'little'
+
+[properties]
+toolchain_subdir = 'libopencm3'
+toolchain = 'arm-none-eabi'
+boardname = 'stm32f0'
+openocd_file = 'board/stm32f0discovery.cfg'
+
+c_args = [
+  '-ffunction-sections', '-fdata-sections', '-fno-common', '--static',
+  '-mcpu=cortex-m0', '-mthumb', '-mfloat-abi=soft', '-DSTM32F0',
+  ]
+
+cpp_args = [
+  '-ffunction-sections', '-fdata-sections', '-fno-common', '--static',
+  '-mcpu=cortex-m0', '-mthumb', '-mfloat-abi=soft', '-DSTM32F0',
+
+  '-fno-exceptions',
+  ]
+
+c_link_args   = [
+  '-Os', '-Wl,--gc-sections', '-nostartfiles'
+  '-lm', '-lc', '-lgcc', '-lnosys',
+  '-lopencm3_stm32f0', '-Tlibopencm3_stm32f0.ld',
+  ]
+cpp_link_args = [
+  '-Os', '-Wl,--gc-sections', '-nostartfiles'
+  '-lm', '-lc', '-lgcc', '-lnosys',
+  '-lopencm3_stm32f0', '-Tlibopencm3_stm32f0.ld',
+  ]

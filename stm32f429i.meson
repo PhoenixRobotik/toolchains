@@ -1,0 +1,40 @@
+[binaries]
+c     = 'arm-none-eabi-gcc'
+cpp   = 'arm-none-eabi-g++'
+ar    = 'arm-none-eabi-ar'
+strip = 'arm-none-eabi-strip'
+
+[host_machine]
+system = 'bare'
+cpu_family = 'stm32'
+cpu = 'stm32f4'
+endian = 'little'
+
+[properties]
+library   = 'libopencm3'
+toolchain = 'arm-none-eabi'
+boardname = 'stm32f429i'
+openocd_file = 'board/stm32f429discovery.cfg'
+
+c_args = [
+  '-ffunction-sections', '-fdata-sections', '-fno-common', '--static',
+  '-mcpu=cortex-m4', '-mthumb', '-mfloat-abi=hard', '-mfpu=fpv4-sp-d16', '-DSTM32F4',
+  ]
+
+cpp_args = [
+  '-ffunction-sections', '-fdata-sections', '-fno-common', '--static',
+  '-mcpu=cortex-m4', '-mthumb', '-mfloat-abi=hard', '-mfpu=fpv4-sp-d16', '-DSTM32F4',
+
+  '-fno-exceptions',
+  ]
+
+c_link_args   = [
+  '-Os', '-Wl,--gc-sections', '-nostartfiles'
+  '-lm', '-lc', '-lgcc', '-lnosys',
+  '-lopencm3_stm32f4', '-Tstm32f429i-discovery.ld',
+  ]
+cpp_link_args = [
+  '-Os', '-Wl,--gc-sections', '-nostartfiles'
+  '-lm', '-lc', '-lgcc', '-lnosys',
+  '-lopencm3_stm32f4', '-Tstm32f429i-discovery.ld',
+  ]
