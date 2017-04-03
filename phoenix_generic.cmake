@@ -17,7 +17,7 @@ if(MainModule)
 
     include_directories(${Root_Directory})
 
-    set(CMAKE_C_FLAGS "${Toolchain_CFlags} -fdiagnostics-color=always -Wall -DDEBUG=${DEBUG}")
+    set(CMAKE_C_FLAGS "${Toolchain_CFlags} -fdiagnostics-color=always -Wall -g -Os -DDEBUG=${DEBUG}")
 
     set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -fno-exceptions")
 endif()

@@ -17,10 +17,10 @@ set(CMAKE_C_COMPILER_WORKS   1)
 set(CMAKE_CXX_COMPILER      /usr/bin/arm-none-eabi-g++)
 set(CMAKE_CXX_COMPILER_WORKS 1)
 
-set(Toolchain_CFlags "-Os -ffunction-sections -fdata-sections -fno-common --static \
+set(Toolchain_CFlags "-ffunction-sections -fdata-sections -fno-common --static \
 -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -DSTM32F3")
 
-set(Toolchain_LFlags "-Os -Wl,--gc-sections -nostartfiles \
+set(Toolchain_LFlags "-Wl,--gc-sections -nostartfiles \
 -L${TOOLCHAIN_PATH} -L${TOOLCHAIN_PATH}/libopencm3/lib -lopencm3_stm32f3 -Tstm32f303k8.ld \
 -lm -lc -lgcc -lnosys --specs=nano.specs")
 
