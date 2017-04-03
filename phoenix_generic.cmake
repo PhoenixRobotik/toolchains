@@ -1,7 +1,7 @@
 
 if(NOT DEFINED MainModule)
     set(MainModule TRUE)
-    set(Root_Directory ${CMAKE_CURRENT_LIST_DIR})
+    set(Root_Directory "${CMAKE_CURRENT_LIST_DIR}/..")
 else()
     set(MainModule FALSE)
 endif()
@@ -14,6 +14,8 @@ if(MainModule)
     set(CMAKE_C_STANDARD    11)
 
     include(${Toolchain})
+
+    include_directories(${Root_Directory})
 
     set(CMAKE_C_FLAGS "${Toolchain_CFlags} -fdiagnostics-color=always -Wall -DDEBUG=${DEBUG}")
 
