@@ -19,4 +19,20 @@ add_custom_target(flash
             -c \"shutdown\"
 )
 
+add_custom_target(lib-stm32f0 WORKING_DIRECTORY ${TOOLCHAIN_PATH}
+    COMMAND make -C libopencm3 lib/stm32/f0
+)
+add_custom_target(lib-stm32f1 WORKING_DIRECTORY ${TOOLCHAIN_PATH}
+    COMMAND make -C libopencm3 lib/stm32/f1
+)
+add_custom_target(lib-stm32f3 WORKING_DIRECTORY ${TOOLCHAIN_PATH}
+    COMMAND make -C libopencm3 lib/stm32/f3
+)
+add_custom_target(lib-stm32f4 WORKING_DIRECTORY ${TOOLCHAIN_PATH}
+    COMMAND make -C libopencm3 lib/stm32/f4
+)
+add_custom_target(lib-stm32l4 WORKING_DIRECTORY ${TOOLCHAIN_PATH}
+    COMMAND make -C libopencm3 lib/stm32/l4
+)
+
 set(TOOLCHAIN "libopencm3")
