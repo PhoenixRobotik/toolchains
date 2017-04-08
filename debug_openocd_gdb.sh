@@ -23,4 +23,4 @@ arm-none-eabi-gdb -tui --eval-command="target remote localhost:3333" $Executable
 
 
 # Quit OpenOCD
-# { echo "shutdown"; sleep 1 } | telnet localhost 4444
+( echo "shutdown" ; sleep 1 ) | telnet localhost 4444
