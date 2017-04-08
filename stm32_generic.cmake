@@ -9,7 +9,7 @@ add_custom_target(flash
     USES_TERMINAL
     DEPENDS main_binary size
     COMMAND arm-none-eabi-objcopy -Oihex $<TARGET_FILE:main_binary> $<TARGET_FILE:main_binary>.hex
-    COMMAND echo "Flashing the STM32 Board !"
+    COMMAND echo \"Flashing the STM32 Board !\"
     COMMAND sudo openocd -f ${OpenOCD_CFG}
             -c \"reset_config none separate\"
             -c \"init\"
@@ -17,6 +17,12 @@ add_custom_target(flash
             -c \"flash write_image erase $<TARGET_FILE:main_binary>.hex\"
             -c \"reset\"
             -c \"shutdown\"
+)
+
+add_custom_target(debug
+    USES_TERMINAL
+    COMMAND echo \"Debugging the STM32 Board !\"
+    COMMAND ${CMAKE_CURRENT_LIST_DIR}/debug_openocd_gdb.sh ${OpenOCD_CFG} $<TARGET_FILE:main_binary>
 )
 
 add_custom_target(lib-stm32f0 WORKING_DIRECTORY ${TOOLCHAIN_PATH}
