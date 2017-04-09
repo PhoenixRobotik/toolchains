@@ -30,11 +30,11 @@ cpp_args = [
 
 c_link_args   = [
   '-Os', '-Wl,--gc-sections', '-nostartfiles',
-  '-lm', '-lc', '-lgcc', '-lnosys',
+  '-lm', '-lc', '-lg', '-lrdimon',
   '-lopencm3_stm32f3', '-Tstm32f303k8.ld',
   ]
 cpp_link_args = [
   '-Os', '-Wl,--gc-sections', '-nostartfiles',
-  '-lm', '-lc', '-lgcc', '-lnosys',
+  '-lm', '-lstdc++_nano', '-lc', '-lg', '-lrdimon',
   '-lopencm3_stm32f3', '-Tstm32f303k8.ld',
   ]

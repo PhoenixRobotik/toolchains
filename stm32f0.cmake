@@ -22,7 +22,7 @@ set(Toolchain_CFlags "-Os -ffunction-sections -fdata-sections -fno-common --stat
 
 set(Toolchain_LFlags "-Os -Wl,--gc-sections -nostartfiles \
 -L${TOOLCHAIN_PATH} -L${TOOLCHAIN_PATH}/libopencm3/lib -lopencm3_stm32f0 -Tstm32f0.ld \
--lm -lc -lgcc -lnosys")
+-lm -lstdc++_nano -lc -lg -lrdimon")
 
 set(OpenOCD_CFG "board/stm32f0discovery.cfg")
 

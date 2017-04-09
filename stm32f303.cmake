@@ -22,7 +22,7 @@ set(Toolchain_CFlags "-ffunction-sections -fdata-sections -fno-common --static \
 
 set(Toolchain_LFlags "-Wl,--gc-sections -nostartfiles \
 -L${TOOLCHAIN_PATH} -L${TOOLCHAIN_PATH}/libopencm3/lib -lopencm3_stm32f3 -Tstm32f303k8.ld \
--lm -lc -lgcc -lnosys --specs=nano.specs")
+-lm -lstdc++_nano -lc -lg -lrdimon")
 
 set(OpenOCD_CFG "/usr/share/openocd/scripts/board/st_nucleo_f3.cfg")
 
