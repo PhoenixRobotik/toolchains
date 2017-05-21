@@ -9,4 +9,5 @@ add_definitions("-Os -W -Wall")
 # Clean unused sections on link
 add_definitions("-ffunction-sections -fdata-sections -Wl,--gc-sections")
 
-set(TOOLCHAIN "PC")
+set(Toolchain           "${CMAKE_CURRENT_LIST_DIR}/PC.cmake")
+set(GenericCmakeLists   "${CMAKE_CURRENT_LIST_DIR}/phoenix_generic.cmake")
